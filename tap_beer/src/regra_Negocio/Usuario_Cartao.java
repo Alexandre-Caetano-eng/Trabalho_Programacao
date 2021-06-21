@@ -3,13 +3,25 @@ package regra_Negocio;
 public class Usuario_Cartao {
 	boolean verificaCPF;
 	
-	public boolean adicionarSaldo(String cpf, String valor) {
+	public boolean adicionarSaldo(String cpf_Usuario, String valor) {
 		long cpf_v;
 		double valor_v;
+		String cpf="";
 		String[] array;
-		//tratando cpf, tenta transformar o cpf String em long, se der erro, avisa.
+		array=cpf_Usuario.split("");
+		//pega o cpf e retira os pontos e traços
+		for(int i=0;i<array.length;i++) {
+			if(array[i].equals(".")) {
+				array[i]="";
+			}
+			if(array[i].equals("-")) {
+				array[i]="";
+			}
+			cpf=cpf+array[i];
+		}
+		//trata o cpf do usuario
 		try {
-			cpf_v=Long.parseLong(cpf);
+			cpf_v=Integer.parseInt(cpf.trim());
 		}catch(Exception e) {
 			System.out.println("Erro no cpf inserido, digite um long válido.");
 			return false;
@@ -52,13 +64,26 @@ public class Usuario_Cartao {
 		return false;
 	}
 	
-	public double verificaSaldo(String cpf) {
+	public double verificaSaldo(String cpf_Usuario) {
 		long cpf_v;
 		verificaCPF=false;
 		double saldo=0;
-		//tratando cpf, tenta transformar o cpf String em long, se der erro, avisa.
+		String cpf="";
+		String[] array;
+		array=cpf_Usuario.split("");
+		//pega o cpf e retira os pontos e traços
+		for(int i=0;i<array.length;i++) {
+			if(array[i].equals(".")) {
+				array[i]="";
+			}
+			if(array[i].equals("-")) {
+				array[i]="";
+			}
+			cpf=cpf+array[i];
+		}
+		//trata o cpf do usuario
 		try {
-			cpf_v=Long.parseLong(cpf);
+			cpf_v=Integer.parseInt(cpf.trim());
 		}catch(Exception e) {
 			System.out.println("Erro no cpf inserido, digite um long válido.");
 			return saldo;
@@ -72,12 +97,25 @@ public class Usuario_Cartao {
 		return saldo;
 	}
 	
-	public boolean cadastrarUsuario(String cpf, String nome) {
+	public boolean cadastrarUsuario(String cpf_Usuario, String nome) {
 		verificaCPF=false;
 		long cpf_v;
-		//tratando cpf, tenta transformar o cpf String em long, se der erro, avisa.
+		String cpf="";
+		String[] array;
+		array=cpf_Usuario.split("");
+		//pega o cpf e retira os pontos e traços
+		for(int i=0;i<array.length;i++) {
+			if(array[i].equals(".")) {
+				array[i]="";
+			}
+			if(array[i].equals("-")) {
+				array[i]="";
+			}
+			cpf=cpf+array[i];
+		}
+		//trata o cpf do usuario
 		try {
-			cpf_v=Long.parseLong(cpf);
+			cpf_v=Integer.parseInt(cpf.trim());
 		}catch(Exception e) {
 			System.out.println("Erro no cpf inserido, digite um long válido.");
 			return false;
@@ -96,12 +134,25 @@ public class Usuario_Cartao {
 		return false;
 	}
 	
-	public boolean alterarNomeUsuario(String cpf, String nome) {
+	public boolean alterarNomeUsuario(String cpf_Usuario, String nome) {
 		verificaCPF=false;
 		long cpf_v;
-		//tratando cpf, tenta transformar o cpf String em long, se der erro, avisa.
+		String cpf="";
+		String[] array;
+		array=cpf_Usuario.split("");
+		//pega o cpf e retira os pontos e traços
+		for(int i=0;i<array.length;i++) {
+			if(array[i].equals(".")) {
+				array[i]="";
+			}
+			if(array[i].equals("-")) {
+				array[i]="";
+			}
+			cpf=cpf+array[i];
+		}
+		//trata o cpf do usuario
 		try {
-			cpf_v=Long.parseLong(cpf);
+			cpf_v=Integer.parseInt(cpf.trim());
 		}catch(Exception e) {
 			System.out.println("Erro no cpf inserido, digite um long válido.");
 			return false;
@@ -121,12 +172,25 @@ public class Usuario_Cartao {
 		return false;
 	}
 	
-	public boolean excluirUsuario(String cpf) {
+	public boolean excluirUsuario(String cpf_Usuario) {
 		verificaCPF=false;
 		long cpf_v;
-		//tratando cpf, tenta transformar o cpf String em long, se der erro, avisa.
+		String cpf="";
+		String[] array;
+		array=cpf_Usuario.split("");
+		//pega o cpf e retira os pontos e traços
+		for(int i=0;i<array.length;i++) {
+			if(array[i].equals(".")) {
+				array[i]="";
+			}
+			if(array[i].equals("-")) {
+				array[i]="";
+			}
+			cpf=cpf+array[i];
+		}
+		//trata o cpf do usuario
 		try {
-			cpf_v=Long.parseLong(cpf);
+			cpf_v=Integer.parseInt(cpf.trim());
 		}catch(Exception e) {
 			System.out.println("Erro no cpf inserido, digite um long válido.");
 			return false;
