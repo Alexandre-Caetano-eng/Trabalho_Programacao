@@ -23,7 +23,7 @@ public class Transacao {
 		}
 		//trata o cpf do usuario
 		try {
-			cpf_v=Integer.parseInt(cpf.trim());
+			cpf_v=Long.parseLong(cpf.trim());
 		}catch(Exception e) {
 			System.out.println("Erro no cpf inserido, digite um long válido.");
 			return false;
@@ -90,7 +90,7 @@ public class Transacao {
 		}
 		//trata o cpf do usuario
 		try {
-			cpf_v=Integer.parseInt(cpf.trim());
+			cpf_v=Long.parseLong(cpf.trim());
 		}catch(Exception e) {
 			System.out.println("Erro no cpf inserido, digite um long válido.");
 			return permitido;
@@ -128,7 +128,7 @@ public class Transacao {
 			}
 			//trata o cpf do usuario
 			try {
-				cpf_v=Integer.parseInt(cpf.trim());
+				cpf_v=Long.parseLong(cpf.trim());
 			}catch(Exception e) {
 				System.out.println("Erro no cpf inserido, digite um long válido.");
 				return retorno;
