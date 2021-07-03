@@ -1,10 +1,19 @@
 package regra_Negocio;
 
+import Banco_de_Dados.Usuario_Alterar;
+import Banco_de_Dados.Usuario_Cadastrar;
+import Banco_de_Dados.Usuario_Excluir;
+import Banco_de_Dados.Usuario_Selecionar;
+
 public class Usuario_Cartao {
 	boolean verificaCPF;
+	Verifica_CPF ve = new Verifica_CPF();
+	Usuario_Alterar UA = new Usuario_Alterar();
+	Usuario_Cadastrar UC = new Usuario_Cadastrar();
+	Usuario_Excluir UE = new Usuario_Excluir();
+	Usuario_Selecionar US = new Usuario_Selecionar();
 	
-	public boolean adicionarSaldo(String cpf_Usuario, String valor) {
-		long cpf_v;
+	public String adicionarSaldo(String cpf_Usuario, String valor) {
 		double valor_v;
 		String cpf="";
 		String[] array;
@@ -19,19 +28,19 @@ public class Usuario_Cartao {
 			}
 			cpf=cpf+array[i];
 		}
-		//trata o cpf do usuario
-		try {
-			cpf_v=Long.parseLong(cpf.trim());
-		}catch(Exception e) {
-			System.out.println("Erro no cpf inserido, digite um long válido.");
-			return false;
+		//verifica o tamanho do cpf
+		if(cpf.trim().length()<11 ||cpf.trim().length()>11) {
+			return "Erro no cpf inserido, digite um cpf com tamanho válido.";
+		}
+		//verifica se o cpf é válido
+		if(ve.verifica(cpf.trim())==false) {
+			return "Erro no cpf inserido, digite um cpf válido.";
 		}
 		//tranforma a String valor em um array
 		array=valor.split("");
 		//zera valor
 		valor="";
 		//verifica se no array existe virgula, se existir altera para ponto,
-		//no brasil usamos virgula, mas o programa precisa que esteja em ponto o separador
 		for(int i=0;i<array.length;i++) {
 			if(array[i].equals(",")) {
 				array[i]=".";
@@ -42,30 +51,31 @@ public class Usuario_Cartao {
 		try {
 			valor_v=Double.parseDouble(valor);
 		}catch(Exception e) {
-			System.out.println("Erro no valor inserido, digite um double válido.");
-			return false;
+			return "Erro no valor inserido, digite um double válido.";
 		}
-		verificaCPF=false;
 		if(valor_v>0) {
 			//verifica cpf_v no banco de dados e salva o retorno no verificaCPF
+			verificaCPF=ve.verifica(cpf.trim());
 			if(verificaCPF==true) {
 				//insere o valor no saldo
-				return true;
+				if(UA.adicionarSaldo(cpf, valor_v)==true) {
+					return "Saldo inserido "+valor_v;
+				}else {
+					return "Saldo não inserido";
+				}
 			}else {
-				System.out.println("CPF inválido.");
+				return "CPF inválido.";
 			}
 		}else {
 			if(valor_v==0) {
-				System.out.println("Tem que ser um valor maior que zero para adicionar saldo.");
+				return "Tem que ser um valor maior que zero para adicionar saldo.";
 			}else {
-				System.out.println("Tem que ser um valor positivo para adicionar saldo.");
+				return "Tem que ser um valor positivo para adicionar saldo.";
 			}
 		}
-		return false;
 	}
 	
 	public double verificaSaldo(String cpf_Usuario) {
-		long cpf_v;
 		verificaCPF=false;
 		double saldo=0;
 		String cpf="";
@@ -81,25 +91,28 @@ public class Usuario_Cartao {
 			}
 			cpf=cpf+array[i];
 		}
-		//trata o cpf do usuario
-		try {
-			cpf_v=Long.parseLong(cpf.trim());
-		}catch(Exception e) {
-			System.out.println("Erro no cpf inserido, digite um long válido.");
+		//verifica o tamanho do cpf
+		if(cpf.trim().length()<11 ||cpf.trim().length()>11) {
+			//Erro no cpf inserido, digite um cpf com tamanho válido.
+			return saldo;
+		}
+		//verifica se o cpf é válido
+		if(ve.verifica(cpf.trim())==false) {
+			//Erro no cpf inserido, digite um cpf válido.
 			return saldo;
 		}
 		//verifica cpf no banco de dados e salva o retorno no verificaCPF
 		if(verificaCPF==true) {
 			//puxa o saldo do usuário no banco de dados e insere em saldo
+			saldo=US.saldoUsuario(cpf.trim());
 		}else {
-			System.out.println("CPF inválido.");
-		} 
+			//CPF inválido."
+		}
 		return saldo;
 	}
 	
-	public boolean cadastrarUsuario(String cpf_Usuario, String nome) {
+	public String cadastrarUsuario(String cpf_Usuario, String nome) {
 		verificaCPF=false;
-		long cpf_v;
 		String cpf="";
 		String[] array;
 		array=cpf_Usuario.split("");
@@ -113,30 +126,33 @@ public class Usuario_Cartao {
 			}
 			cpf=cpf+array[i];
 		}
-		//trata o cpf do usuario
-		try {
-			cpf_v=Long.parseLong(cpf.trim());
-		}catch(Exception e) {
-			System.out.println("Erro no cpf inserido, digite um long válido.");
-			return false;
+		//verifica o tamanho do cpf
+		if(cpf.trim().length()<11 ||cpf.trim().length()>11) {
+			return "Erro no cpf inserido, digite um cpf com tamanho válido.";
+		}
+		//verifica se o cpf é válido
+		if(ve.verifica(cpf.trim())==false) {
+			return "Erro no cpf inserido, digite um cpf válido.";
 		}
 		//verifica cpf no banco de dados e salva o retorno no verificaCPF
 		if(verificaCPF==true) {
 			if(!nome.equals("")) {
 				//insere o novo usuario
-				return true;
+				if(UC.cadastrarUsuario(cpf.trim(), nome)==true) {
+					return "Usuario criado com sucesso.";
+				}else {
+					return "Usuario não criado.";
+				}
 			}else {
-				System.out.println("Nome não pode ser vazio.");
+				return "Nome não pode ser vazio.";
 			}
 		}else {
-			System.out.println("CPF inválido.");
-		} 
-		return false;
+			return "CPF inválido.";
+		}
 	}
 	
-	public boolean alterarNomeUsuario(String cpf_Usuario, String nome) {
+	public String alterarNomeUsuario(String cpf_Usuario, String nome) {
 		verificaCPF=false;
-		long cpf_v;
 		String cpf="";
 		String[] array;
 		array=cpf_Usuario.split("");
@@ -150,31 +166,36 @@ public class Usuario_Cartao {
 			}
 			cpf=cpf+array[i];
 		}
-		//trata o cpf do usuario
-		try {
-			cpf_v=Long.parseLong(cpf.trim());
-		}catch(Exception e) {
-			System.out.println("Erro no cpf inserido, digite um long válido.");
-			return false;
+		//verifica o tamanho do cpf
+		if(cpf.trim().length()<11 ||cpf.trim().length()>11) {
+			return "Erro no cpf inserido, digite um cpf com tamanho válido.";
+		}
+		//verifica se o cpf é válido
+		if(ve.verifica(cpf.trim())==false) {
+			return "Erro no cpf inserido, digite um cpf válido.";
 		}
 		//verifica cpf no banco de dados e salva o retorno no verificaCPF
+		verificaCPF=ve.verifica(cpf.trim());
 		if(verificaCPF==true) {
 			//verifica se o nome não está vazio.
 			if(!nome.equals("")) {
 				//altera o nome do usuario
-				return true;
+				if(UA.alterarNome(cpf.trim(), nome)==true) {
+					return "Nome alterado para "+nome;
+				}else {
+					return "Nome não pode ser alterado.";
+				}
+				
 			}else {
-				System.out.println("Nome não pode ser vazio.");
+				return "Nome não pode ser vazio.";
 			}
 		}else {
-			System.out.println("CPF inválido.");
+			return "CPF inválido.";
 		} 
-		return false;
 	}
 	
-	public boolean excluirUsuario(String cpf_Usuario) {
+	public String excluirUsuario(String cpf_Usuario) {
 		verificaCPF=false;
-		long cpf_v;
 		String cpf="";
 		String[] array;
 		array=cpf_Usuario.split("");
@@ -188,21 +209,18 @@ public class Usuario_Cartao {
 			}
 			cpf=cpf+array[i];
 		}
-		//trata o cpf do usuario
-		try {
-			cpf_v=Long.parseLong(cpf.trim());
-		}catch(Exception e) {
-			System.out.println("Erro no cpf inserido, digite um long válido.");
-			return false;
-		}
 		//verifica cpf no banco de dados e salva o retorno no verificaCPF
+		verificaCPF=ve.verifica(cpf.trim());
 		if(verificaCPF==true) {
 			//exclui o usuario
-			return true;
+			if(UE.excluirUsuario(cpf.trim())==true) {
+				return "Usuário Excluído.";
+			}else {
+				return "Usuário não pode ser excluído.";
+			}
 		}else {
-			System.out.println("CPF inválido.");
-		} 
-		return false;
+			return "CPF inválido.";
+		}
 	}
 	
 	public Usuario_Cartao() {

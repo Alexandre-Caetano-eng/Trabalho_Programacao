@@ -4,18 +4,18 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Produto_Cadastro {
-	
-	public boolean cadastroProduto(String nome, double valor) {
-		//cadastra um usuario
+public class Torneira_Alterar {
+	public boolean adicionarProdutoTorneira(int id_Torneira, int id_Produto, double quant) {
+		//cadastra um produto em uma determinada torneira
 		boolean retorno=false;
 		PreparedStatement comando = null;	
 		try {
 			if(BancoDeDados.conexao!=null) {
-				String sql ="INSERT INTO `produto`(`nome`, `valor`) VALUES (?,?)";
+				String sql ="UPDATE `torneira` SET `id_Produto`=? , `quant_Produto`=? WHERE `id_Torneira`=?";
 				comando = BancoDeDados.conexao.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-				comando.setString(1,nome);
-				comando.setDouble(2,valor);
+				comando.setInt(1,id_Produto);
+				comando.setDouble(2,quant);
+				comando.setInt(3,id_Torneira);
 				if(comando.executeUpdate()>0) {
 					retorno = true;
 				}
@@ -30,9 +30,5 @@ public class Produto_Cadastro {
 			}
 		}
 		return retorno;
-	}
-	
-	public Produto_Cadastro() {
-		
 	}
 }
