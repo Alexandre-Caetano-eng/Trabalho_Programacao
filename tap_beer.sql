@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 21-Jun-2021 às 15:53
+-- Generation Time: 03-Jul-2021 às 19:27
 -- Versão do servidor: 5.7.25
 -- versão do PHP: 7.1.26
 
@@ -34,6 +34,13 @@ CREATE TABLE `produto` (
   `valor` double(7,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `produto`
+--
+
+INSERT INTO `produto` (`id_Produto`, `nome`, `valor`) VALUES
+(1, 'kaiser', 10.00);
+
 -- --------------------------------------------------------
 
 --
@@ -44,7 +51,7 @@ CREATE TABLE `torneira` (
   `id_Torneira` int(11) NOT NULL,
   `id_Produto` int(11) DEFAULT NULL,
   `localizacao` varchar(200) NOT NULL,
-  `quant_Produto` double DEFAULT NULL
+  `quant_Produto` double DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -55,12 +62,19 @@ CREATE TABLE `torneira` (
 
 CREATE TABLE `transacao` (
   `id_Transacao` bigint(20) NOT NULL,
-  `cpf_Usuario` bigint(20) NOT NULL,
-  `id_Torneira` int(11) NOT NULL,
+  `cpf_Usuario` varchar(11) NOT NULL,
+  `nome_Produto` varchar(50) NOT NULL,
   `quant_Prod` double NOT NULL,
   `valor_Pago` double(7,2) NOT NULL,
   `data_Transacao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `transacao`
+--
+
+INSERT INTO `transacao` (`id_Transacao`, `cpf_Usuario`, `nome_Produto`, `quant_Prod`, `valor_Pago`, `data_Transacao`) VALUES
+(1, '12345678909', 'kaiser', 1, 10.00, '2021-07-03 17:42:17');
 
 -- --------------------------------------------------------
 
@@ -69,10 +83,17 @@ CREATE TABLE `transacao` (
 --
 
 CREATE TABLE `usuario_cartao` (
-  `cpf` bigint(20) NOT NULL,
+  `cpf` varchar(11) NOT NULL,
   `nome` varchar(50) NOT NULL,
-  `saldo` double(7,2) NOT NULL DEFAULT '0.00'
+  `saldo` double(7,2) DEFAULT '0.00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `usuario_cartao`
+--
+
+INSERT INTO `usuario_cartao` (`cpf`, `nome`, `saldo`) VALUES
+('12345678909', 'teste', 10.00);
 
 --
 -- Indexes for dumped tables
@@ -96,14 +117,13 @@ ALTER TABLE `torneira`
 --
 ALTER TABLE `transacao`
   ADD PRIMARY KEY (`id_Transacao`),
-  ADD UNIQUE KEY `FK_Usuario` (`cpf_Usuario`),
-  ADD UNIQUE KEY `FK_Torneira` (`id_Torneira`);
+  ADD UNIQUE KEY `FK_CPF` (`cpf_Usuario`);
 
 --
 -- Indexes for table `usuario_cartao`
 --
 ALTER TABLE `usuario_cartao`
-  ADD PRIMARY KEY (`cpf`);
+  ADD PRIMARY KEY (`cpf`) USING BTREE;
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -113,7 +133,7 @@ ALTER TABLE `usuario_cartao`
 -- AUTO_INCREMENT for table `produto`
 --
 ALTER TABLE `produto`
-  MODIFY `id_Produto` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `torneira`
@@ -125,13 +145,7 @@ ALTER TABLE `torneira`
 -- AUTO_INCREMENT for table `transacao`
 --
 ALTER TABLE `transacao`
-  MODIFY `id_Transacao` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `usuario_cartao`
---
-ALTER TABLE `usuario_cartao`
-  MODIFY `cpf` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Transacao` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -147,8 +161,7 @@ ALTER TABLE `torneira`
 -- Limitadores para a tabela `transacao`
 --
 ALTER TABLE `transacao`
-  ADD CONSTRAINT `transacao_ibfk_1` FOREIGN KEY (`cpf_Usuario`) REFERENCES `usuario_cartao` (`cpf`),
-  ADD CONSTRAINT `transacao_ibfk_2` FOREIGN KEY (`id_Torneira`) REFERENCES `torneira` (`id_Torneira`);
+  ADD CONSTRAINT `transacao_ibfk_3` FOREIGN KEY (`cpf_Usuario`) REFERENCES `usuario_cartao` (`cpf`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
