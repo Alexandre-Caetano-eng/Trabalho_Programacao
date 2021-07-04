@@ -55,7 +55,7 @@ public class Usuario_Cartao {
 		}
 		if(valor_v>0) {
 			//verifica cpf_v no banco de dados e salva o retorno no verificaCPF
-			verificaCPF=ve.verifica(cpf.trim());
+			verificaCPF=US.verificaUsuarioExiste(cpf.trim());
 			if(verificaCPF==true) {
 				//insere o valor no saldo
 				if(UA.adicionarSaldo(cpf, valor_v)==true) {
@@ -102,6 +102,7 @@ public class Usuario_Cartao {
 			return saldo;
 		}
 		//verifica cpf no banco de dados e salva o retorno no verificaCPF
+		verificaCPF=US.verificaUsuarioExiste(cpf.trim());
 		if(verificaCPF==true) {
 			//puxa o saldo do usuário no banco de dados e insere em saldo
 			saldo=US.saldoUsuario(cpf.trim());
@@ -135,6 +136,7 @@ public class Usuario_Cartao {
 			return "Erro no cpf inserido, digite um cpf válido.";
 		}
 		//verifica cpf no banco de dados e salva o retorno no verificaCPF
+		verificaCPF=US.verificaUsuarioExiste(cpf.trim());
 		if(verificaCPF==true) {
 			if(!nome.equals("")) {
 				//insere o novo usuario
@@ -175,7 +177,7 @@ public class Usuario_Cartao {
 			return "Erro no cpf inserido, digite um cpf válido.";
 		}
 		//verifica cpf no banco de dados e salva o retorno no verificaCPF
-		verificaCPF=ve.verifica(cpf.trim());
+		verificaCPF=US.verificaUsuarioExiste(cpf.trim());
 		if(verificaCPF==true) {
 			//verifica se o nome não está vazio.
 			if(!nome.equals("")) {
@@ -209,8 +211,12 @@ public class Usuario_Cartao {
 			}
 			cpf=cpf+array[i];
 		}
+		//verifica se o cpf é válido
+		if(ve.verifica(cpf.trim())==false) {
+			return "Erro no cpf inserido, digite um cpf válido.";
+		}
 		//verifica cpf no banco de dados e salva o retorno no verificaCPF
-		verificaCPF=ve.verifica(cpf.trim());
+		verificaCPF=US.verificaUsuarioExiste(cpf.trim());
 		if(verificaCPF==true) {
 			//exclui o usuario
 			if(UE.excluirUsuario(cpf.trim())==true) {
