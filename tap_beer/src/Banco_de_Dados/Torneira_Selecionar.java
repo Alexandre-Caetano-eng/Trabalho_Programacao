@@ -227,7 +227,7 @@ public class Torneira_Selecionar {
 		try {
 			if(BancoDeDados.conexao!=null) {
 				String sql;
-				sql ="SELECT * FROM torneira WHERE id_Produto="+id_Produto+" and quant_Produto="+quant;
+				sql ="SELECT * FROM torneira WHERE id_Produto="+id_Produto+" and quant_Produto<="+quant;
 				comando = BancoDeDados.conexao.prepareStatement(sql);
 				resultado = comando.executeQuery(sql);
 				if(resultado.next()) {
@@ -260,7 +260,7 @@ public class Torneira_Selecionar {
 		try {
 			if(BancoDeDados.conexao!=null) {
 				String sql;
-				sql ="SELECT * FROM torneira WHERE localizacao="+localizacao+" and quant_Produto="+quant;
+				sql ="SELECT * FROM torneira WHERE localizacao="+localizacao+" and quant_Produto<="+quant;
 				comando = BancoDeDados.conexao.prepareStatement(sql);
 				resultado = comando.executeQuery(sql);
 				if(resultado.next()) {
@@ -293,7 +293,7 @@ public class Torneira_Selecionar {
 		try {
 			if(BancoDeDados.conexao!=null) {
 				String sql;
-				sql ="SELECT * FROM torneira WHERE quant_Produto="+quant;
+				sql ="SELECT * FROM torneira WHERE quant_Produto<="+quant;
 				comando = BancoDeDados.conexao.prepareStatement(sql);
 				resultado = comando.executeQuery(sql);
 				if(resultado.next()) {
