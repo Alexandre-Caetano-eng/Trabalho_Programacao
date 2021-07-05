@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 03-Jul-2021 às 19:27
+-- Generation Time: 05-Jul-2021 às 00:03
 -- Versão do servidor: 5.7.25
 -- versão do PHP: 7.1.26
 
@@ -54,6 +54,13 @@ CREATE TABLE `torneira` (
   `quant_Produto` double DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `torneira`
+--
+
+INSERT INTO `torneira` (`id_Torneira`, `id_Produto`, `localizacao`, `quant_Produto`) VALUES
+(1, 1, 'Anita Garibaldi nº', 500);
+
 -- --------------------------------------------------------
 
 --
@@ -74,7 +81,8 @@ CREATE TABLE `transacao` (
 --
 
 INSERT INTO `transacao` (`id_Transacao`, `cpf_Usuario`, `nome_Produto`, `quant_Prod`, `valor_Pago`, `data_Transacao`) VALUES
-(1, '12345678909', 'kaiser', 1, 10.00, '2021-07-03 17:42:17');
+(6, '12345678909', 'kaiser', 0.11060002995, 1.11, '2021-07-04 23:56:54'),
+(7, '12345678909', 'kaiser', 0.11862308504999998, 1.19, '2021-07-05 00:02:22');
 
 -- --------------------------------------------------------
 
@@ -93,7 +101,7 @@ CREATE TABLE `usuario_cartao` (
 --
 
 INSERT INTO `usuario_cartao` (`cpf`, `nome`, `saldo`) VALUES
-('12345678909', 'teste', 10.00);
+('12345678909', 'teste', 7.70);
 
 --
 -- Indexes for dumped tables
@@ -116,8 +124,7 @@ ALTER TABLE `torneira`
 -- Indexes for table `transacao`
 --
 ALTER TABLE `transacao`
-  ADD PRIMARY KEY (`id_Transacao`),
-  ADD UNIQUE KEY `FK_CPF` (`cpf_Usuario`);
+  ADD PRIMARY KEY (`id_Transacao`);
 
 --
 -- Indexes for table `usuario_cartao`
@@ -139,13 +146,13 @@ ALTER TABLE `produto`
 -- AUTO_INCREMENT for table `torneira`
 --
 ALTER TABLE `torneira`
-  MODIFY `id_Torneira` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Torneira` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `transacao`
 --
 ALTER TABLE `transacao`
-  MODIFY `id_Transacao` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_Transacao` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
@@ -156,12 +163,6 @@ ALTER TABLE `transacao`
 --
 ALTER TABLE `torneira`
   ADD CONSTRAINT `torneira_ibfk_1` FOREIGN KEY (`id_Produto`) REFERENCES `produto` (`id_Produto`);
-
---
--- Limitadores para a tabela `transacao`
---
-ALTER TABLE `transacao`
-  ADD CONSTRAINT `transacao_ibfk_3` FOREIGN KEY (`cpf_Usuario`) REFERENCES `usuario_cartao` (`cpf`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
