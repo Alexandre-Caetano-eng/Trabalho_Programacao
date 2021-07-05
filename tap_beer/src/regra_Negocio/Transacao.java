@@ -4,6 +4,7 @@ import Banco_de_Dados.Produto_Selecionar;
 import Banco_de_Dados.Torneira_Selecionar;
 import Banco_de_Dados.Transacao_Cadastrar;
 import Banco_de_Dados.Transacao_Selecionar;
+import Banco_de_Dados.Usuario_Alterar;
 import Banco_de_Dados.Usuario_Selecionar;
 
 public class Transacao {
@@ -13,6 +14,7 @@ public class Transacao {
 	Produto_Selecionar PS = new Produto_Selecionar();
 	Torneira_Selecionar TS = new Torneira_Selecionar();
 	Usuario_Selecionar US = new Usuario_Selecionar();
+	Usuario_Alterar UA = new Usuario_Alterar();
 	Transacao_Selecionar TRS = new Transacao_Selecionar();
 	Transacao_Cadastrar TRC = new Transacao_Cadastrar();
 	
@@ -60,6 +62,7 @@ public class Transacao {
 			return ("Erro, sem produto na torneira "+id_Torneira);
 		}
 		//calcula o valor a pagar e testa no if, valor_t=quantp_v * valor_p
+		valor_t=quantp_v * valor_p;
 		if(valor_t>0) {
 			verificaCPF=ve.verifica(cpf.trim());
 			//verifica se o cpf do usuario é válido
@@ -70,8 +73,12 @@ public class Transacao {
 					try {
 						nomeP=PS.nomeProduto(idProd);
 						//chama funçao cadastrar a função no banco, passando(cpf_v, nome_produto,prod_v, quantp_v, )
-						if(TRC.cadastrarTransacao(cpf, nomeP, quantp_v, (valor_p*quantp_v))==true) {
-							return "Cadastrado.";
+						if(TRC.cadastrarTransacao(cpf, nomeP, quantp_v, valor_t)==true) {
+							if(UA.adicionarSaldo(cpf, US.saldoUsuario(cpf)-valor_t)==true) {
+								return "Transação Finalizada.";
+							}else {
+								return "Cadastrado com problemas.";
+							}
 						}else {
 							return "Não cadastrado.";
 						}
@@ -119,7 +126,7 @@ public class Transacao {
 		//pode pegar em ml, coloca isso dentro do usu_p.
 		quant_t=Tor.liberarProdutoEncherCopo(id_Torneira);
 		usu_p=US.saldoUsuario(cpf.trim());
-		if(usu_p>quant_t) {
+		if(usu_p/PS.valorProduto(TS.verificarTorneiraProduto(Integer.parseInt(id_Torneira)))>quant_t) {
 			permitido=quant_t;
 		}else {
 			permitido=usu_p;

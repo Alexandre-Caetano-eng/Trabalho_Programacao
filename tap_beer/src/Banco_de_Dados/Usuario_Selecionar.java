@@ -13,9 +13,8 @@ public class Usuario_Selecionar {
 		try {
 			if(BancoDeDados.conexao!=null) {
 				String sql;
-				sql ="SELECT saldo FROM usuario_cartao WHERE cpf=?";
+				sql ="SELECT saldo FROM usuario_cartao WHERE cpf LIKE "+cpf;
 				comando = BancoDeDados.conexao.prepareStatement(sql);
-				comando.setString(1, cpf);
 				resultado = comando.executeQuery(sql);
 				if(resultado.next()) {
 					retorno=resultado.getDouble("saldo");
@@ -41,9 +40,8 @@ public class Usuario_Selecionar {
 		try {
 			if(BancoDeDados.conexao!=null) {
 				String sql;
-				sql ="SELECT * FROM usuario_cartao WHERE cpf=?";
+				sql ="SELECT * FROM `usuario_cartao` WHERE `cpf` LIKE "+cpf;
 				comando = BancoDeDados.conexao.prepareStatement(sql);
-				comando.setString(1, cpf);
 				resultado = comando.executeQuery(sql);
 				if(resultado.next()) {
 					retorno=true;

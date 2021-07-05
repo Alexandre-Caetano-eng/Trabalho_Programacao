@@ -12,7 +12,6 @@ public class ClasseConexao {
 			//Verifica a conexão
 			if(conexao==null) {
 				conexao = DriverManager.getConnection(url,user,password);
-				System.out.println("conexao iniciada");
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
