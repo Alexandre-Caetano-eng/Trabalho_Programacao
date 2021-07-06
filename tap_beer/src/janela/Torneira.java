@@ -76,8 +76,9 @@ public class Torneira {
 		
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 400, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.setBounds(100, 100, 400, 400);
 		frame.getContentPane().setLayout(null);
 		
 		CPF_entrada = new JTextField();

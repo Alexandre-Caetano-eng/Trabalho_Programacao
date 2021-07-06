@@ -104,7 +104,7 @@ public class Torneira_Selecionar {
 					retorno[i][0]=String.valueOf(resultado.getInt("id_Torneira"));
 					retorno[i][1]=String.valueOf(resultado.getInt("id_Produto"));
 					retorno[i][2]=resultado.getString("localizacao");
-					retorno[i][3]=String.valueOf(resultado.getInt("quant_Produto"));
+					retorno[i][3]=String.valueOf(resultado.getDouble("quant_Produto"));
 					i++;
 				}
 			}

@@ -58,7 +58,7 @@ public class Usuario_Cartao {
 			verificaCPF=US.verificaUsuarioExiste(cpf.trim());
 			if(verificaCPF==true) {
 				//insere o valor no saldo
-				if(UA.adicionarSaldo(cpf, valor_v)==true) {
+				if(UA.adicionarSaldo(cpf, valor_v+US.saldoUsuario(cpf))==true) {
 					return "Saldo inserido "+valor_v;
 				}else {
 					return "Saldo não inserido";
@@ -136,7 +136,7 @@ public class Usuario_Cartao {
 			return "Erro no cpf inserido, digite um cpf válido.";
 		}
 		//verifica cpf no banco de dados e salva o retorno no verificaCPF
-		verificaCPF=US.verificaUsuarioExiste(cpf.trim());
+		verificaCPF=ve.verifica(cpf.trim());
 		if(verificaCPF==true) {
 			if(!nome.equals("")) {
 				//insere o novo usuario

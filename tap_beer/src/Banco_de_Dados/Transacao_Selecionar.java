@@ -38,6 +38,40 @@ public class Transacao_Selecionar {
 		return retorno;
 	}
 	
+	public String[][] verificaTransacaoTodas() {
+		String[][] retorno = new String[200][6];
+		int i=0;
+		PreparedStatement comando = null;
+		ResultSet resultado = null;
+		try {
+			if(BancoDeDados.conexao!=null) {
+				String sql;
+				sql ="SELECT * FROM transacao ";
+				comando = BancoDeDados.conexao.prepareStatement(sql);
+				resultado = comando.executeQuery(sql);
+				while(resultado.next()) {
+					retorno[i][0]=String.valueOf(resultado.getInt("id_Transacao"));
+					retorno[i][1]=resultado.getString("cpf_Usuario");
+					retorno[i][2]=resultado.getString("nome_Produto");
+					retorno[i][3]=String.valueOf(resultado.getDouble("quant_Prod"));
+					retorno[i][4]=String.valueOf(resultado.getDouble("valor_Pago"));
+					retorno[i][5]=String.valueOf(resultado.getDate("data_Transacao"));
+					i++;
+				}
+			}
+		}catch(SQLException e) {
+			return retorno;
+		}finally{
+			try {
+				comando.close();
+				resultado.close();
+			}catch(SQLException e) {
+				return retorno;
+			}
+		}
+		return retorno;
+	}
+	
 	public String[][] verificaTransacaoUsuario(String cpf) {
 		String[][] retorno = new String[200][6];
 		int i=0;

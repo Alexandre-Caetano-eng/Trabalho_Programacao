@@ -8,6 +8,7 @@ public class Verifica_CPF {
 		int[] num=new int[11];
 		int soma=0, numero;
 		try{
+			array=CPF.split("");
 			for(int i=0;i<11;i++) {
 				num[i]=Integer.valueOf(array[i]);
 			}

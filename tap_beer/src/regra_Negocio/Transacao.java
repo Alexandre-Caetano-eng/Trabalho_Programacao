@@ -1,6 +1,7 @@
 package regra_Negocio;
 
 import Banco_de_Dados.Produto_Selecionar;
+import Banco_de_Dados.Torneira_Alterar;
 import Banco_de_Dados.Torneira_Selecionar;
 import Banco_de_Dados.Transacao_Cadastrar;
 import Banco_de_Dados.Transacao_Selecionar;
@@ -12,6 +13,7 @@ public class Transacao {
 	boolean verificaCPF, verificaTor;
 	public static Torneira Tor = new Torneira();
 	Produto_Selecionar PS = new Produto_Selecionar();
+	Torneira_Alterar TA = new Torneira_Alterar();
 	Torneira_Selecionar TS = new Torneira_Selecionar();
 	Usuario_Selecionar US = new Usuario_Selecionar();
 	Usuario_Alterar UA = new Usuario_Alterar();
@@ -75,7 +77,11 @@ public class Transacao {
 						//chama funçao cadastrar a função no banco, passando(cpf_v, nome_produto,prod_v, quantp_v, )
 						if(TRC.cadastrarTransacao(cpf, nomeP, quantp_v, valor_t)==true) {
 							if(UA.adicionarSaldo(cpf, US.saldoUsuario(cpf)-valor_t)==true) {
-								return "Transação Finalizada.";
+								if(TA.adicionarProdutoTorneira(tor_v, idProd, (TS.verificarQuantProdutoTorneira(tor_v)-quantp_v))) {
+									return "Transação Finalizada.";
+								}else {
+									return "Cadastrado com pouco problemas.";
+								}
 							}else {
 								return "Cadastrado com problemas.";
 							}
@@ -179,6 +185,11 @@ public class Transacao {
 				//consulta no banco de dados a transação e coloca em retorno
 				retorno = TRS.verificaTransacao(trans_v);
 				return retorno;
+			}
+		}
+		if(id_Transacao.equals("")==true) {
+			if(cpf_Usuario.equals("")==true) {
+				retorno= TRS.verificaTransacaoTodas();
 			}
 		}
 		return retorno;

@@ -60,6 +60,37 @@ public class Usuario_Selecionar {
 		return retorno;
 	}
 	
+	public String[][] selecionaUsuarios() {
+		String[][] retorno=new String[200][3];
+		PreparedStatement comando = null;
+		ResultSet resultado = null;
+		try {
+			if(BancoDeDados.conexao!=null) {
+				String sql;
+				sql ="SELECT * FROM `usuario_cartao`";
+				comando = BancoDeDados.conexao.prepareStatement(sql);
+				resultado = comando.executeQuery(sql);
+				int i=0;
+				while(resultado.next()) {
+					retorno[i][0]=resultado.getString("cpf");
+					retorno[i][1]=resultado.getString("nome");
+					retorno[i][2]=String.valueOf(resultado.getDouble("saldo"));
+					i++;
+				}
+			}
+		}catch(SQLException e) {
+			return retorno;
+		}finally{
+			try {
+				comando.close();
+				resultado.close();
+			}catch(SQLException e) {
+				return retorno;
+			}
+		}
+		return retorno;
+	}
+	
 	public Usuario_Selecionar() {
 		
 	}

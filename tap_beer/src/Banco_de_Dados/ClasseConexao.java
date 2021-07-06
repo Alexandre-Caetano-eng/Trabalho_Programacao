@@ -14,7 +14,7 @@ public class ClasseConexao {
 				conexao = DriverManager.getConnection(url,user,password);
 			}
 		}catch(SQLException e) {
-			e.printStackTrace();
+			System.out.println("Conexão não estabelecida.");
 		}
 		return conexao;
 	}
@@ -24,7 +24,7 @@ public class ClasseConexao {
 				c.close();
 			}
 		}catch(SQLException e) {
-			e.printStackTrace();
+			System.out.println("Erro ao fechar.");
 		}
 	}
 }

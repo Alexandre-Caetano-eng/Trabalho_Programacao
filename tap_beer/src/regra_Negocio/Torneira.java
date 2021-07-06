@@ -145,7 +145,7 @@ public class Torneira {
 		}
 		//verifica se a torneira existe no banco
 		if(!id_Torneira.equals("")) {
-			if(id_Torneira.equals("todas")) {
+			if(id_Torneira.equalsIgnoreCase("todas")) {
 				//select de todas as torneiras inseridas no retorno.
 				retorno = TS.consultarTodasTorneira();
 				return retorno;

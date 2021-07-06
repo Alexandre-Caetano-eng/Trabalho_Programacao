@@ -13,7 +13,6 @@ public class BancoDeDados {
 		try {
 			EncerraConexao();
 		}catch(Exception e) {
-			
 		}
 		String endereco="jdbc:mysql://localhost/tap_beer";
 		String usuario="root";
